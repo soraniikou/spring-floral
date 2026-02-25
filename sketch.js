@@ -1,6 +1,14 @@
+
+let myVoice; // 自分の声を入れる箱
 let particles = [];
 let hasInteracted = false;
 let instructionAlpha = 200;
+
+// アプリが始まる前に音声を読み込む
+function preload() {
+  // ファイル名が「しあわせでいてね.m4a」であることを確認してください
+  myVoice = loadSound('しあわせでいてね.m4a');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -10,7 +18,7 @@ function setup() {
 
 function draw() {
   // 背景の透明度を少し下げて「残像（香りの余韻）」を長めに設定
-  background(255, 245, 250, 20); 
+  background(255, 245, 250, 20);
 
   // まだ触っていない時だけガイドを表示
   if (!hasInteracted) {
@@ -21,7 +29,15 @@ function draw() {
   if (mouseIsPressed || (touches.length > 0)) {
     hasInteracted = true;
     particles.push(new FlowerParticle(mouseX, mouseY));
+
+    // 音がまだ再生されていない場合のみ、8秒後に再生を予約
+    if (myVoice && !myVoice.isPlaying()) {
+      setTimeout(() => {
+        myVoice.play();
+      }, 8000);
+    }
   }
+
 
   // 粒子の更新と描画
   for (let i = particles.length - 1; i >= 0; i--) {
