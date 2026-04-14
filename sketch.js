@@ -26,7 +26,9 @@ function draw() {
   if (mouseIsPressed || (touches.length > 0)) {
     hasInteracted = true;
     particles.push(new FlowerParticle(mouseX, mouseY));
-
+  }
+  
+    
     // 音がまだ再生されていない場合のみ、8秒後に再生を予約
     
 
